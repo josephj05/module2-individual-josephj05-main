@@ -4,69 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PHP Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .calculator {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="number"] {
+            width: 100px;
+            margin: 10px 0;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
 </head>
 <body>
-    <h1>PHP Calculator</h1>
+
+<div class="calculator">
+    <h1>Simple PHP Calculator</h1>
     <form action="" method="post">
-        <label for="num1">Enter first number:</label>
-        <input type="text" id="num1" name="num1" required>
-        <br><br>
-        
-        <label for="num2">Enter second number:</label>
-        <input type="text" id="num2" name="num2" required>
-        <br><br>
+        <label for="num1">First Number:</label>
+        <input type="number" step="0.01" name="num1" required><br>
 
-        <label>Select Operation:</label><br>
-        <input type="radio" id="add" name="operation" value="add" required>
-        <label for="add">Addition</label><br>
+        <label for="num2">Second Number:</label>
+        <input type="number" step="0.01" name="num2" required><br>
 
-        <input type="radio" id="subtract" name="operation" value="subtract">
-        <label for="subtract">Subtraction</label><br>
+        <label for="operation">Select Operation:</label><br>
+        <input type="radio" name="operation" value="add" required> Addition<br>
+        <input type="radio" name="operation" value="subtract"> Subtraction<br>
+        <input type="radio" name="operation" value="multiply"> Multiplication<br>
+        <input type="radio" name="operation" value="divide"> Division<br>
 
-        <input type="radio" id="multiply" name="operation" value="multiply">
-        <label for="multiply">Multiplication</label><br>
-
-        <input type="radio" id="divide" name="operation" value="divide">
-        <label for="divide">Division</label><br><br>
-
-        <input type="submit" name="submit" value="Calculate">
+        <input type="submit" name="calculate" value="Calculate">
     </form>
 
-    <?php
-    if (isset($_POST['submit'])) {
-        $num1 = $_POST['num1'];
-        $num2 = $_POST['num2'];
-        $operation = $_POST['operation'];
+    <div class="result">
+        <?php
+        if (isset($_POST['calculate'])) {
+            $num1 = (float)$_POST['num1'];
+            $num2 = (float)$_POST['num2'];
+            $operation = $_POST['operation'];
+            $result = '';
 
-        if (is_numeric($num1) && is_numeric($num2)) {
-            switch ($operation) {
-                case "add":
-                    $result = $num1 + $num2;
-                    echo "<h2>Result: $num1 + $num2 = $result</h2>";
-                    break;
-                case "subtract":
-                    $result = $num1 - $num2;
-                    echo "<h2>Result: $num1 - $num2 = $result</h2>";
-                    break;
-                case "multiply":
-                    $result = $num1 * $num2;
-                    echo "<h2>Result: $num1 * $num2 = $result</h2>";
-                    break;
-                case "divide":
-                    if ($num2 != 0) {
-                        $result = $num1 / $num2;
-                        echo "<h2>Result: $num1 / $num2 = $result</h2>";
-                    } else {
-                        echo "<h2>Error: Division by zero is not allowed!</h2>";
-                    }
-                    break;
-                default:
-                    echo "<h2>Please select an operation</h2>";
+            if ($operation == 'add') {
+                $result = $num1 + $num2;
+            } elseif ($operation == 'subtract') {
+                $result = $num1 - $num2;
+            } elseif ($operation == 'multiply') {
+                $result = $num1 * $num2;
+            } elseif ($operation == 'divide') {
+                if ($num2 != 0) {
+                    $result = $num1 / $num2;
+                } else {
+                    $result = 'Error: Division by zero';
+                }
             }
-        } else {
-            echo "<h2>Error: Please enter valid numbers</h2>";
+
+            echo "Result: " . $result;
         }
-    }
-    ?>
+        ?>
+    </div>
+</div>
+
 </body>
 </html>
